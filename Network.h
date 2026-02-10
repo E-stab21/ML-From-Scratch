@@ -46,7 +46,29 @@ class Network
         {
             network[i].forwardOutput();
         }
-        return network[network.size() - 1].receiveOutput();
+
+        //sigmoid
+        double max = -1e+99;
+        double min = 1e+99;
+        auto outputs = network[network.size() - 1].receiveOutput();
+        for (double &output : outputs)
+        {
+            if (output < min)
+            {
+                min = output;
+            }
+            if (output > max)
+            {
+                max = output;
+            }
+        }
+
+        for (double &output : outputs)
+        {
+            output = (output - min) / (max - min);
+        }
+
+        return outputs;
     }
 };
 

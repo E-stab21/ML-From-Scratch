@@ -8,6 +8,7 @@
 //includes
 #include <vector>
 #include <random>
+#include <cmath>
 #include "Eigen"
 using namespace Eigen;
 using namespace std;
@@ -21,8 +22,8 @@ class MatrixNetwork
 
         MatrixLayer(int const n, int const m)
         {
-            weights = ((MatrixXf::Random(n, m).array() + 1.0) / 2.0).matrix();
-            biases = ((VectorXf::Random(n, 1).array() + 1.0) / 2.0).matrix();
+            weights = MatrixXf::Random(n, m).matrix();
+            biases = VectorXf::Random(n, 1).matrix();
         }
     };
 
@@ -53,6 +54,13 @@ class MatrixNetwork
                 return max(0.0f, x);
             });
         }
+
+        //softmax
+        //input = (input.array() - input.maxCoeff()).exp();
+        //input = input / input.sum()
+
+        //sigmoid
+        input = (input.array() - input.minCoeff()) / (input.maxCoeff() - input.minCoeff());
 
         return input;
     }

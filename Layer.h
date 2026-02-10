@@ -27,7 +27,7 @@ class Layer
         //random bias
         random_device rd;
         mt19937 gen(rd());
-        uniform_real_distribution<double> dist(0, upper);
+        uniform_real_distribution<double> dist(-upper, upper);
 
         for (int i = 0; i < size; i++)
         {
@@ -40,7 +40,7 @@ class Layer
         //random weights
         random_device rd;
         mt19937 gen(rd());
-        uniform_real_distribution<double> dist(0, upper);
+        uniform_real_distribution<double> dist(-upper, upper);
 
         for (Node &node: nodes)
         {
