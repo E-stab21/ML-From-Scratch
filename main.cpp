@@ -1,32 +1,48 @@
 #include <iostream>
-#include <vector>
-#include <random>
+#include <fstream>
 #include "MatrixNetwork.h"
-#include "Network.h"
 using namespace std;
+
+//data type
+struct Mnist : public MatrixNetwork::Comparable
+{
+    int label;
+
+    Mnist(const VectorXf &input, const int label)
+    {
+        this->label = label;
+        this->input = input;
+        answer = VectorXf(10, 1);
+        answer[label] = 1;
+    }
+};
 
 int main()
 {
-    random_device rd;
-    uniform_real_distribution<> dist(0, 1);
-    mt19937 gen(rd());
+    //read in data
+    VectorXf test(784, 1);
+    VectorXf answer(10, 1);
 
-    //object version
-    auto n = Network(5, 784, 10, 16);
-    vector<double> input(784);
-    for (double &i : input) {
-        i = dist(gen);
-    }
-    auto output = n.forward(input);
-    for (double i : output)
+    if (ifstream file("../MNIST_CSV/mnist_train.csv"); file)
     {
-        cout << i << endl;
-    }
-    cout << endl;
+        char comma;
+        int label;
+        file >> label;
+        answer[label] = 1;
 
-    //matrix version
-    const auto m = MatrixNetwork(5, 784, 10, 16);
-    VectorXf inputV = VectorXf::Random(784, 1);
-    const auto outputV = m.forward(inputV);
-    cout << outputV << endl;
+        for (int i = 0; i < 784; i++)
+        {
+            file >> comma >> test[i];
+            test[i] /= 253;
+        }
+
+    } else
+    {
+        cout << "file not found";
+        exit(0);
+    }
+
+    //create matrix
+    auto m = MatrixNetwork(5, 784, 10, 16);
+    m.train(test, answer, 0.01);
 }

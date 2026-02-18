@@ -38,29 +38,35 @@ private:
             weightChanges = MatrixXf(n, m).matrix();
             biasesChanges = VectorXf(n, 1).matrix();
         }
+
+        void update(const int numOfOuts)
+        {
+            weights = (weights.array() + (weightChanges.array() / numOfOuts)).matrix();
+            biases = (biases.array() + (biasesChanges.array() / numOfOuts)).matrix();
+        }
     };
 
     //fields
-    vector<MatrixLayer> layers;
     int numOfLayers;
     int numOfInputs;
     int numOfOutputs;
     int middleLayerSize;
+    vector<MatrixLayer> layers;
 
-    double summer(vector<VectorXf> &saved, VectorXf &answer, int layerI, int m, int outputI)
+    float summer(vector<VectorXf> &saved, VectorXf &answer, int layerI, int m, int outputI)
     {
-        double change = 0;
+        float change = 0;
 
         //base case
         if (layerI == layers.size() - 1)
         {
             return layers[layerI].weights(outputI, m) *
-                (saved[layerI][outputI] > 0 ? 1 : 0.01) * -(answer(outputI) - saved[layerI][outputI]);
+                (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) * -(answer(outputI) - saved[layerI + 1][outputI]);
         }
 
         for (int n = 0; n < layers[layerI].n; n++)
         {
-            change += layers[layerI].weights(n, m) * (saved[layerI][n] > 0 ? 1 : 0.01) *
+            change += layers[layerI].weights(n, m) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
                 summer(saved, answer, layerI + 1, n, outputI);
         }
 
@@ -68,7 +74,14 @@ private:
     }
 
 public:
+    //public data type
+    struct Comparable
+    {
+        VectorXf input;
+        VectorXf answer;
+    };
 
+    //constructor
     MatrixNetwork(int const numOfLayers, int const numOfInputs, int const numOfOutputs, int const middleLayerSize)
     {
         this->numOfLayers = numOfLayers;
@@ -108,11 +121,13 @@ public:
         return input;
     }
 
-    void train(VectorXf &input, VectorXf &answer, double const learningRate)
+    void train(VectorXf &input, VectorXf &answer, const float learningRate)
     {
         vector<VectorXf> saved;
-        saved.reserve(layers.size());
+        saved.reserve(layers.size() + 1);
+        saved.emplace_back(input);
 
+        //getting output
         for (auto & layer : layers)
         {
             input = (layer.weights * input + layer.biases).unaryExpr([](float x)
@@ -134,15 +149,15 @@ public:
                     for (int m = 0; m < layers[layerI].m; m++)
                     {
                         //weights
-                        double weightChange = saved[layerI - 1][m] * (saved[layerI][outputI] > 0 ? 1 : 0.01) *
-                            -(answer[outputI] - saved[layerI][outputI]);
+                        float weightChange = saved[layerI](m) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) *
+                            -(answer[outputI] - saved[layerI + 1][outputI]);
 
                         layers[layerI].weightChanges(outputI, m) += -(learningRate * weightChange);
                     }
 
                     //basis
-                    double basisChange = layers[layerI].biases(outputI) * (saved[layerI][outputI] > 0 ? 1 : 0.01) *
-                        -(answer[outputI] - saved[layerI][outputI]);
+                    float basisChange = layers[layerI].biases(outputI) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) *
+                        -(answer[outputI] - saved[layerI + 1][outputI]);
 
                     layers[layerI].biasesChanges(outputI) += -(learningRate * basisChange);
 
@@ -153,17 +168,17 @@ public:
                         for (int m = 0; m < layers[layerI].m; m++)
                         {
                             //weights
-                            double weightChange = saved[layerI - 1][m] * (saved[layerI][n] > 0 ? 1 : 0.01) *
-                                layers[layerI + 1].weights(outputI, n) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01) *
-                                    -(answer[outputI] - saved[layerI][outputI]);
+                            float weightChange = saved[layerI][m] * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                                layers[layerI + 1].weights(outputI, n) * (saved[layerI + 2][outputI] > 0 ? 1 : 0.01f) *
+                                    -(answer[outputI] - saved[layerI + 2][outputI]);
 
                             layers[layerI].weightChanges(n, m) += -(learningRate * weightChange);
                         }
 
                         //basis
-                        double basisChange = layers[layerI].biases(n) * (saved[layerI][n] > 0 ? 1 : 0.01) *
-                            layers[layerI + 1].weights(outputI, n) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01) *
-                                -(answer[outputI] - saved[layerI][outputI]);
+                        float basisChange = layers[layerI].biases(n) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                            layers[layerI + 1].weights(outputI, n) * (saved[layerI + 2][outputI] > 0 ? 1 : 0.01f) *
+                                -(answer[outputI] - saved[layerI + 2][outputI]);
 
 
                         layers[layerI].biasesChanges(n) += -(learningRate * basisChange);
@@ -175,20 +190,26 @@ public:
                         for (int m = 0; m < layers[layerI].m; m++)
                         {
                             //weights
-                            double weightChange = saved[layerI - 1][m] * (saved[layerI][n] > 0 ? 1 : 0.01) *
+                            float weightChange = saved[layerI][m] * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
                                 summer(saved, answer, layerI + 1, n, outputI);
 
                             layers[layerI].weightChanges(n, m) += -(learningRate * weightChange);
                         }
 
                         //basis
-                        double basisChange = layers[layerI].biases(n) * (saved[layerI][n] > 0 ? 1 : 0.01) *
+                        float basisChange = layers[layerI].biases(n) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
                             summer(saved, answer, layerI + 1, n, outputI);
 
                         layers[layerI].biasesChanges(n) += -(learningRate * basisChange);
                     }
                 }
             }
+        }
+
+        //updating
+        for (auto & layer : layers)
+        {
+            layer.update(numOfOutputs);
         }
     }
 };
