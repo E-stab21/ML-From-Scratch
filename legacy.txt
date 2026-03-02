@@ -1,0 +1,123 @@
+first version of backprop
+
+float summer(vector<VectorXf> &saved, VectorXf &answer, int layerI, int m, int outputI)
+{
+    float change = 0;
+
+    //base case
+    if (layerI == layers.size() - 1)
+    {
+        return layers[layerI].weights(outputI, m) *
+            (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) * -(answer(outputI) - saved[layerI + 1][outputI]);
+    }
+
+    for (int n = 0; n < layers[layerI].n; n++)
+    {
+        change += layers[layerI].weights(n, m) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+            summer(saved, answer, layerI + 1, n, outputI);
+    }
+
+    return change;
+}
+
+for (int row{0}; row < layers[layerIndex].n; row++)
+{
+    //weights
+    for (int col{0}; col < layers[layerIndex].m; col++)
+    {
+        layers[layerIndex].weights(row, col) -= learningRate * (saved[layerIndex].first[col]
+          * copy[row]);
+    }
+
+    //biases
+    layers[layerIndex].biases(row) -= learningRate * copy[row];
+}
+
+vector<VectorXf> saved;
+saved.reserve(layers.size() + 1);
+saved.emplace_back(input);
+
+//getting output
+for (auto & layer : layers)
+{
+    input = (layer.weights * input + layer.biases).unaryExpr([](float x)
+    {
+        return max(0.0f, x);
+    });
+
+    saved.emplace_back(input);
+}
+
+//backprop
+for (int outputI = 0; outputI < numOfOutputs - 2; outputI++)
+{
+    for (int layerI = 0; layerI < layers.size(); layerI++)
+    {
+        //first matrix layer
+        if (layerI == layers.size() - 1)
+        {
+            for (int m = 0; m < layers[layerI].m; m++)
+            {
+                //weights
+                float weightChange = saved[layerI](m) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) *
+                    -(answer[outputI] - saved[layerI + 1][outputI]);
+
+                layers[layerI].weightChanges(outputI, m) += -(learningRate * weightChange);
+            }
+
+            //basis
+            float basisChange = layers[layerI].biases(outputI) * (saved[layerI + 1][outputI] > 0 ? 1 : 0.01f) *
+                -(answer[outputI] - saved[layerI + 1][outputI]);
+
+            layers[layerI].biasesChanges(outputI) += -(learningRate * basisChange);
+
+        } else if (layerI == layers.size() - 2)
+        {
+            for (int n = 0; n < layers[layerI].n; n++)
+            {
+                for (int m = 0; m < layers[layerI].m; m++)
+                {
+                    //weights
+                    float weightChange = saved[layerI][m] * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                        layers[layerI + 1].weights(outputI, n) * (saved[layerI + 2][outputI] > 0 ? 1 : 0.01f) *
+                            -(answer[outputI] - saved[layerI + 2][outputI]);
+
+                    layers[layerI].weightChanges(n, m) += -(learningRate * weightChange);
+                }
+
+                //basis
+                float basisChange = layers[layerI].biases(n) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                    layers[layerI + 1].weights(outputI, n) * (saved[layerI + 2][outputI] > 0 ? 1 : 0.01f) *
+                        -(answer[outputI] - saved[layerI + 2][outputI]);
+
+
+                layers[layerI].biasesChanges(n) += -(learningRate * basisChange);
+            }
+        } else
+        {
+            for (int n = 0; n < layers[layerI].n; n++)
+            {
+                for (int m = 0; m < layers[layerI].m; m++)
+                {
+                    //weights
+                    float weightChange = saved[layerI][m] * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                        summer(saved, answer, layerI + 1, n, outputI);
+
+                    layers[layerI].weightChanges(n, m) += -(learningRate * weightChange);
+                }
+
+                //basis
+                float basisChange = layers[layerI].biases(n) * (saved[layerI + 1][n] > 0 ? 1 : 0.01f) *
+                    summer(saved, answer, layerI + 1, n, outputI);
+
+                layers[layerI].biasesChanges(n) += -(learningRate * basisChange);
+            }
+        }
+    }
+}
+
+//updating
+for (auto & layer : layers)
+{
+    layer.update(numOfOutputs);
+}
