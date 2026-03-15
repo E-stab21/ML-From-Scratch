@@ -25,7 +25,7 @@ int main()
     //read in data
     if (ifstream file("../MNIST_CSV/mnist_train.csv"); file)
     {
-        for (int i{}; i < 100; i++)
+        for (int i{}; i < 1000; i++)
         {
             char comma;
             int label;
@@ -117,31 +117,29 @@ int main()
         }
     }
 
-    check = true;
-    cout << "Please enter the learning rate: " << endl;
-    while (check)
-    {
-        check = true;
-        if (!(cin >> learningRate))
-        {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Please enter a valid float: " << endl;
-        } else if (!(learningRate > 0 && learningRate <= 0.001))
-        {
-            cout << "number given should not be either negative or greater than 0.001: " << endl;
-        } else
-        {
-            check = false;
-        }
-    }
+    // check = true;
+    // cout << "Please enter the learning rate: " << endl;
+    // while (check)
+    // {
+    //     check = true;
+    //     if (!(cin >> learningRate))
+    //     {
+    //         cin.clear();
+    //         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    //         cout << "Please enter a valid float: " << endl;
+    //     } else if (!(learningRate > 0 && learningRate <= 0.5))
+    //     {
+    //         cout << "number given should not be either negative or greater than 0.001: " << endl;
+    //     } else
+    //     {
+    //         check = false;
+    //     }
+    // }
 
     //create matrix
     auto m = MatrixNetwork(layers, 784, 10, middleLayerSize);
-    for (int epoch = 0; epoch < 40; epoch++)
-    {
-        m.train(train, learningRate);
-    }
+    //train
+    m.train(train, 0.02, 0.001, 0.9, 10, 20);
 
     //output
     int numCorrect{0};

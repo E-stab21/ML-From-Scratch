@@ -22,10 +22,12 @@ class MatrixNetwork
         VectorXf biases;
         MatrixXf weightChanges;
         VectorXf biasesChanges;
+        MatrixXf weightVelocity;
+        VectorXf biasVelocity;
 
         MatrixLayer(int n, int m);
 
-        void update(int numOfOuts);
+        void update(int batchSize);
     };
 
     //fields
@@ -34,14 +36,14 @@ class MatrixNetwork
     int numOfOutputs;
     int middleLayerSize;
     vector<MatrixLayer> layers;
-    static inline auto leaky = [](const float x){ return x > 0 ? 1.0f : 0.01f; };
     static inline auto reLu = [](const float x){ return x > 0 ? x : x * 0.01f; };
+    static inline auto leaky = [](const float x){ return x > 0 ? 1.0f : 0.01f; };
 
 public:
     //public data type
     struct Comparable
     {
-        const VectorXf input;
+        VectorXf input;
         VectorXf answer;
     };
 
@@ -50,7 +52,7 @@ public:
 
     [[nodiscard]] VectorXf forward(VectorXf input) const;
 
-    void train(vector<Comparable> &trainingObjects, float learningRate);
+    void train(vector<Comparable> &trainingSet, float maxAlpha, float minAlpha, float beta, int batchSize, int epochs);
 };
 
 #endif //ML_FROM_SCRATCH_MATRIXNETWORK_H
