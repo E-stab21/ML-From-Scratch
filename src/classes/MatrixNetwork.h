@@ -52,7 +52,8 @@ public:
 
     [[nodiscard]] VectorXf forward(VectorXf input) const;
 
-    void train(vector<Comparable> &trainingSet, float maxAlpha, float minAlpha, float beta, int batchSize, int epochs);
+    void train(vector<Comparable> &trainingSet, float maxAlpha, float minAlpha,
+        float beta, int batchSize, int epochs, vector<float> &averageBatchLoss);
 };
 
 #endif //ML_FROM_SCRATCH_MATRIXNETWORK_H

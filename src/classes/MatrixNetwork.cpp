@@ -55,9 +55,8 @@ VectorXf MatrixNetwork::forward(VectorXf input) const
 }
 
 void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha, const float minAlpha,
-    const float beta, const int batchSize, const int epochs)
+    const float beta, const int batchSize, const int epochs, vector<float> &averageBatchLoss)
 {
-    //random gen
     mt19937 g{random_device{}()};
 
     //input val
@@ -97,6 +96,8 @@ void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha,
 
         for (const auto &batch: batchedData)
         {
+            float storedLoss = 0;
+
             for (const auto & [input, answer] : batch)
             {
                 VectorXf copy = input;
@@ -111,9 +112,15 @@ void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha,
                     saved.emplace_back(copy, z);
                 }
 
+                //softmax
                 copy = (copy.array() - copy.maxCoeff()).exp();
                 copy = copy / copy.sum();
-                //
+
+                //add loss
+                float epsilon = 1e-7;
+                VectorXf log_output = (copy.array() + epsilon).log();
+                const float loss = -answer.dot(log_output);
+                storedLoss += loss;
 
                 //back propagation
                 for (int layerIndex = static_cast<int>(layers.size()) - 1; layerIndex >= 0; layerIndex--)
@@ -147,6 +154,8 @@ void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha,
             {
                 layer.update(batchSize);
             }
+
+            averageBatchLoss.push_back(storedLoss / static_cast<float>(batch.size()));
         }
     }
 }

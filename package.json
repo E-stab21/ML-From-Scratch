@@ -1,0 +1,31 @@
+{
+  "name": "ml-from-scratch",
+  "version": "1.0.0",
+  "description": "repo for custom implementations of machine learning techniques",
+  "main": "UI/server.js",
+  "scripts": {
+    "start": "nodemon UI/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/E-stab21/ML-From-Scratch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/E-stab21/ML-From-Scratch/issues"
+  },
+  "homepage": "https://github.com/E-stab21/ML-From-Scratch#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "^18.0.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

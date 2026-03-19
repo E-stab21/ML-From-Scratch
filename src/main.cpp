@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <random>
-#include "MatrixNetwork.h"
+#include "classes/MatrixNetwork.h"
 using namespace std;
 
 //data type
@@ -19,13 +19,18 @@ struct Mnist : MatrixNetwork::Comparable
 int main()
 {
     //globals
+    const int trainingSize = 1000;
+    const int testingSize = 100;
+    const int numOfLayers = 2;
+    const int middleLayerSize = 10;
     vector<MatrixNetwork::Comparable> train;
     vector<Mnist> test;
+    vector<float> costData;
 
-    //read in data
+    //read in training
     if (ifstream file("../MNIST_CSV/mnist_train.csv"); file)
     {
-        for (int i{}; i < 1000; i++)
+        for (int i{}; i < trainingSize; i++)
         {
             char comma;
             int label;
@@ -39,10 +44,7 @@ int main()
                 input[j] = input[j] / 255;
             }
 
-            //if (i == 44)
-            //{
-                train.push_back(Mnist(input, label));
-            //}
+            train.push_back(Mnist(input, label));
         }
     } else
     {
@@ -50,9 +52,10 @@ int main()
         exit(0);
     }
 
+    //read in testing
     if (ifstream file("../MNIST_CSV/mnist_test.csv"); file)
     {
-        for (int i{}; i < 100; i++)
+        for (int i{}; i < testingSize; i++)
         {
             char comma;
             int label;
@@ -74,62 +77,18 @@ int main()
         exit(0);
     }
 
-    //user input
-    bool check = true;
-    int layers{};
-    int middleLayerSize{};
-    float learningRate{};
-
-    cout << "Please enter the number of layers you want: " << endl;
-    while (check)
-    {
-        check = true;
-        if (!(cin >> layers))
-        {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Please enter a valid int: " << endl;
-        } else if (!(layers > 0 && layers < 8))
-        {
-            cout << "number given should not be either negative or greater than 8: " << endl;
-        } else
-        {
-            check = false;
-        }
-    }
-
-    check = true;
-    cout << "Please enter the size of the middle layers: " << endl;
-    while (check)
-    {
-        check = true;
-        if (!(cin >> middleLayerSize))
-        {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Please enter a valid int: " << endl;
-        } else if (!(middleLayerSize > 0 && middleLayerSize <= 100))
-        {
-            cout << "number given should not be either negative or greater than 100: " << endl;
-        } else
-        {
-            check = false;
-        }
-    }
-
-    // check = true;
-    // cout << "Please enter the learning rate: " << endl;
+    // cout << "Please enter the number of layers you want: " << endl;
     // while (check)
     // {
     //     check = true;
-    //     if (!(cin >> learningRate))
+    //     if (!(cin >> layers))
     //     {
     //         cin.clear();
     //         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    //         cout << "Please enter a valid float: " << endl;
-    //     } else if (!(learningRate > 0 && learningRate <= 0.5))
+    //         cout << "Please enter a valid int: " << endl;
+    //     } else if (!(layers > 0 && layers < 8))
     //     {
-    //         cout << "number given should not be either negative or greater than 0.001: " << endl;
+    //         cout << "number given should not be either negative or greater than 8: " << endl;
     //     } else
     //     {
     //         check = false;
@@ -137,11 +96,11 @@ int main()
     // }
 
     //create matrix
-    auto m = MatrixNetwork(layers, 784, 10, middleLayerSize);
+    auto m = MatrixNetwork(numOfLayers, 784, 10, middleLayerSize);
     //train
-    m.train(train, 0.02, 0.001, 0.9, 10, 20);
+    m.train(train, 0.02, 0.001, 0.9, 10, 20, costData);
 
-    //output
+    //output to console
     int numCorrect{0};
     for (auto &image : test)
     {
