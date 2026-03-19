@@ -1,0 +1,140 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.31"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "libs/eigen-5.0.0",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libs.eigen-5.0.0-Debug-61c33180745c513becdc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "libs/eigen-5.0.0"
+				},
+				{
+					"build" : "libs/eigen-5.0.0/unsupported",
+					"childIndexes" : 
+					[
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libs.eigen-5.0.0.unsupported-Debug-46c01f2a82d8262f7390.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "libs/eigen-5.0.0/unsupported"
+				},
+				{
+					"build" : "libs/eigen-5.0.0/unsupported/Eigen",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libs.eigen-5.0.0.unsupported.Eigen-Debug-899cd85439bb1c3d0e26.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 2,
+					"projectIndex" : 1,
+					"source" : "libs/eigen-5.0.0/unsupported/Eigen"
+				},
+				{
+					"build" : "libs/eigen-5.0.0/unsupported/Eigen/CXX11",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-libs.eigen-5.0.0.unsupported.Eigen.CXX11-Debug-2a14391ea4e01043b48f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 1,
+					"source" : "libs/eigen-5.0.0/unsupported/Eigen/CXX11"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ML-From-Scratch",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"name" : "Eigen3",
+					"parentIndex" : 0
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ML-From-Scratch::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ML-From-Scratch-Debug-cd6f42668c49f54de573.json",
+					"name" : "ML-From-Scratch",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug",
+		"source" : "C:/Users/ethan/Projects/ML-From-Scratch"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

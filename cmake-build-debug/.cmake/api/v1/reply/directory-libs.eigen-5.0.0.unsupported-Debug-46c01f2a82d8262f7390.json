@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "libs/eigen-5.0.0/unsupported",
+		"source" : "libs/eigen-5.0.0/unsupported"
+	}
+}

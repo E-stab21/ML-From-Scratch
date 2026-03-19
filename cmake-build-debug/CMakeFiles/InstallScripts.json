@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug/cmake_install.cmake",
+		"C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug/libs/eigen-5.0.0/cmake_install.cmake",
+		"C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug/libs/eigen-5.0.0/unsupported/cmake_install.cmake",
+		"C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug/libs/eigen-5.0.0/unsupported/Eigen/cmake_install.cmake",
+		"C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug/libs/eigen-5.0.0/unsupported/Eigen/CXX11/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

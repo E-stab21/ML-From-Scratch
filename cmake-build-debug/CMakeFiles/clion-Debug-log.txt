@@ -1,0 +1,7 @@
+C:\Users\ethan\AppData\Local\Programs\CLion\bin\cmake\win\x64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/ethan/AppData/Local/Programs/CLion/bin/ninja/win/x64/ninja.exe -G Ninja -S C:\Users\ethan\Projects\ML-From-Scratch -B C:\Users\ethan\Projects\ML-From-Scratch\cmake-build-debug
+-- 
+-- Configured Eigen 5.0.0-dev+f0e96e99
+-- 
+-- Configuring done (1.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug
