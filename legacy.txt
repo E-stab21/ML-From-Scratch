@@ -1,3 +1,25 @@
+input
+
+cout << "Please enter the number of layers you want: " << endl;
+while (check)
+{
+   check = true;
+   if (!(cin >> layers))
+   {
+      cin.clear();
+    //         cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    //         cout << "Please enter a valid int: " << endl;
+    //     } else if (!(layers > 0 && layers < 8))
+    //     {
+    //         cout << "number given should not be either negative or greater than 8: " << endl;
+    //     } else
+    //     {
+    //         check = false;
+    //     }
+    // }
+
+
+
 first version of backprop
 
 float summer(vector<VectorXf> &saved, VectorXf &answer, int layerI, int m, int outputI)

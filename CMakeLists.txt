@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_subdirectory(libs/eigen-5.0.0)
 
+if(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++ -static")
+endif()
+
 add_executable(ML-From-Scratch src/main.cpp
         src/classes/Node.h
         src/classes/Layer.h

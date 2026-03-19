@@ -70,7 +70,7 @@ void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha,
 
     for (int epoch = 0; epoch < epochs; epoch++)
     {
-        float alpha{};
+        float alpha = 0;
         if (epoch < warmups)
         {
             //warmup
@@ -159,4 +159,3 @@ void MatrixNetwork::train(vector<Comparable> &trainingSet, const float maxAlpha,
         }
     }
 }
-

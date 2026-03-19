@@ -1,0 +1,47 @@
+body {
+    background-color: #2b2b2b;
+    padding: 10px 100px;
+}
+
+.text {
+    font-family: "Segoe UI Emoji", serif;
+}
+
+label {
+    display: block;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.training-params-inputs {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.button-con {
+    align-content: center;
+}
+
+button {
+    padding: 20px;
+}
+
+.box {
+    padding: 15px;
+    background-color: #747474;
+    border-radius: 10px;
+}
+
+.visual {
+    margin-bottom: 10px;
+}

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <string>
 #include "classes/MatrixNetwork.h"
+
 using namespace std;
 
 //data type
@@ -16,16 +18,24 @@ struct Mnist : MatrixNetwork::Comparable
     }
 };
 
-int main()
+int main(int argc, char* argv[])
 {
+    //args
+    const int numOfLayers = stoi(string(argv[1]));
+    const int middleLayerSize = stoi(string(argv[2]));
+    const int trainingSize = stoi(string(argv[3]));
+    const int batchSize = stoi(string(argv[4]));
+    const int epochs = stoi(string(argv[5]));
+    const float minLr = stof(string(argv[6]));
+    const float maxLr = stof(string(argv[7]));
+    const float beta = stof(string(argv[8]));
+
     //globals
-    const int trainingSize = 1000;
     const int testingSize = 100;
-    const int numOfLayers = 2;
-    const int middleLayerSize = 10;
     vector<MatrixNetwork::Comparable> train;
     vector<Mnist> test;
-    vector<float> costData;
+    vector<float> lossData;
+
 
     //read in training
     if (ifstream file("../MNIST_CSV/mnist_train.csv"); file)
@@ -48,8 +58,8 @@ int main()
         }
     } else
     {
-        cout << "file not found";
-        exit(0);
+        cerr << "file not found";
+        exit(10);
     }
 
     //read in testing
@@ -73,46 +83,27 @@ int main()
         }
     } else
     {
-        cout << "file not found";
-        exit(0);
+        cerr << "file not found";
+        exit(10);
     }
-
-    // cout << "Please enter the number of layers you want: " << endl;
-    // while (check)
-    // {
-    //     check = true;
-    //     if (!(cin >> layers))
-    //     {
-    //         cin.clear();
-    //         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    //         cout << "Please enter a valid int: " << endl;
-    //     } else if (!(layers > 0 && layers < 8))
-    //     {
-    //         cout << "number given should not be either negative or greater than 8: " << endl;
-    //     } else
-    //     {
-    //         check = false;
-    //     }
-    // }
 
     //create matrix
     auto m = MatrixNetwork(numOfLayers, 784, 10, middleLayerSize);
     //train
-    m.train(train, 0.02, 0.001, 0.9, 10, 20, costData);
+    m.train(train, maxLr, minLr, beta, batchSize, epochs, lossData);
 
-    //output to console
-    int numCorrect{0};
+    //counting the number of correct
+    int numCorrect = 0;
     for (auto &image : test)
     {
-        float max{0};
-        int maxIndex{0};
+        float max = 0;
+        int maxIndex = 0;
         auto output = m.forward(image.input);
         for (int row = 0; row < 10; row++)
         {
-            cout << output(row) << " ";
             if (output(row) > max)
             {
-                max = output(row);
+                max = output[row];
                 maxIndex = row;
             }
         }
@@ -120,8 +111,12 @@ int main()
         {
             numCorrect++;
         }
-        cout << image.label << endl;
     }
+    cout << numCorrect << endl;
 
-    cout << endl << numCorrect << endl;
+    //loss output to console
+    for (int i = 0; i < lossData.size(); i++)
+    {
+        cout << i << ',' << lossData[i] << endl;
+    }
 }
