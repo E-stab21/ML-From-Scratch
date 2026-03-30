@@ -1,4 +1,5 @@
 const form = document.getElementById('params');
+const accuracy = document.getElementById('accuracy');
 let lossChart = null;
 
 form.addEventListener('submit', async () => {
@@ -20,6 +21,8 @@ form.addEventListener('submit', async () => {
     //grab data
     const lossData = await getData(formData);
     if (!lossData) {
+        console.log("Incorrect data format");
+        accuracy.textContent = 'Failed';
         return;
     }
 
@@ -32,7 +35,7 @@ form.addEventListener('submit', async () => {
         values.push(parseFloat(row[1]))
     })
 
-    document.getElementById("accuracy").textContent = percentCorrect + '%';
+    accuracy.textContent = percentCorrect + '%';
 
     //reset graph
     if (lossChart !== null) {
@@ -60,8 +63,10 @@ form.addEventListener('submit', async () => {
     });
 });
 
- async function getData(formData) {
+async function getData(formData) {
     try {
+        accuracy.textContent = 'Loading';
+
         //send it to the server
         const response = await fetch('http://localhost:3000/data', {
             method: 'POST', //use POST to send data
@@ -70,22 +75,27 @@ form.addEventListener('submit', async () => {
             },
             body: JSON.stringify(formData) //turn the JS object into a string
         });
-
+        const body = await response.text();
         if (!response.ok) {
-            console.error(`Server responded with status: ${response.status}`);
+            console.error(`Server responded with status: ${response.status}\n Body: ${body}`);
+            alert(body);
+            accuracy.textContent = 'Failed';
             return;
         }
 
-        const csvData = await response.text();
-        if (!csvData) {
+        if (!body) {
             console.error('Data stream ended');
+            alert('Data stream ended')
+            accuracy.textContent = 'Failed';
             return;
         }
 
-        return csvData.split('\n').map(row => row.split(','));
+        return body.split('\n').map(row => row.split(','));
 
     } catch (error) {
         console.error('network failure or lost connection');
+        alert('network failure or lost connection');
+        accuracy.textContent = 'Failed';
     }
 }
 

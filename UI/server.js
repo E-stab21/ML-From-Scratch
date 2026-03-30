@@ -4,7 +4,7 @@ import { spawn } from 'child_process'
 
 //globals
 const port = 3000;
-const exePath = path.join(import.meta.dirname, '..', 'cmake-build-debug', 'ML-From-Scratch.exe');
+const exePath = path.join(import.meta.dirname, '..', 'cmake-build-debug', 'M3OEP-estabeno.exe');
 const exeDir = path.join(import.meta.dirname, '..', 'cmake-build-debug');
 
 //sets up server
@@ -15,9 +15,16 @@ app.use(express.json());
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 
 app.post('/data', (req, res) => {
+    //user input validation
+    let check = true;
     const args = Object.values(req.body);
+    args.forEach((arg, index) => {
+        if ( isNaN(Number(arg)) || Number(arg) === 0 || (index < 5 && !Number.isInteger(Number(arg)))) {
+            check = false;
+        }
+    });
+    if (!check) { return res.status(505).send('Incorrect User Input'); }
 
-    //checking args
     console.log(args);
 
     let stderrOutput = "";
@@ -31,7 +38,7 @@ app.post('/data', (req, res) => {
         res.status(500).send('Data Generation failed');
     });
 
-    //on in process error
+    //on  during-process error
     child.stderr.on('data', (data) => {
         stderrOutput += data.toString();
     });

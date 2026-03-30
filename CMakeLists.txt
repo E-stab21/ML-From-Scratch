@@ -7,6 +7,8 @@ add_subdirectory(libs/eigen-5.0.0)
 
 if(WIN32)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++ -static")
+elseif(UNIX) # covers both macOS and Linux
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
 endif()
 
 add_executable(ML-From-Scratch src/main.cpp
