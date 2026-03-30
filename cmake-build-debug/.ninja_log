@@ -1,12 +1,7 @@
 # ninja log v6
-21	1951	7949746791227541	CMakeFiles/ML-From-Scratch.dir/main.cpp.obj	239914722bba0fa
-158	8277	7953399455238219	CMakeFiles/ML-From-Scratch.dir/MatrixNetwork.cpp.obj	ebdf814209f78257
-39	1212	7941272390968983	CMakeFiles/ML-From-Scratch.dir/Classes/Network.cpp.obj	5296bd983dd1734e
 1993	3586	7956625182370303	ML-From-Scratch.exe	9990cfdb7ec167
-60	711	7941272086831517	CMakeFiles/ML-From-Scratch.dir/Classes/Node.cpp.obj	f587160c5ed8214e
-51	1338	7941272391076514	CMakeFiles/ML-From-Scratch.dir/Classes/Layer.cpp.obj	a9735336d7d9a0bc
 421	2030	7956410089328349	CMakeFiles/ML-From-Scratch.dir/src/classes/Network.cpp.obj	6525ce987933a836
-430	2040	7956410089416966	CMakeFiles/ML-From-Scratch.dir/src/classes/Node.cpp.obj	2480753a3e43d81e
 439	2050	7956410089499582	CMakeFiles/ML-From-Scratch.dir/src/classes/Layer.cpp.obj	bbcafde303e7c5a2
+430	2040	7956410089416966	CMakeFiles/ML-From-Scratch.dir/src/classes/Node.cpp.obj	2480753a3e43d81e
 9	1992	7956625162537891	CMakeFiles/ML-From-Scratch.dir/src/main.cpp.obj	1ffcc4bb0e0bbb6a
 8	4334	7956548004825260	CMakeFiles/ML-From-Scratch.dir/src/classes/MatrixNetwork.cpp.obj	9abcc2512a28bc0a

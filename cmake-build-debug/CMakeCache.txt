@@ -32,7 +32,7 @@ CMAKE_BUILD_TYPE:STRING=Debug
 CMAKE_COLOR_DIAGNOSTICS:BOOL=ON
 
 //CXX compiler
-CMAKE_CXX_COMPILER:STRING=C:/Users/ethan/AppData/Local/Programs/CLion/bin/mingw/bin/g++.exe
+CMAKE_CXX_COMPILER:FILEPATH=C:/Users/ethan/AppData/Local/Programs/CLion/bin/mingw/bin/g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -61,7 +61,7 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //C compiler
-CMAKE_C_COMPILER:STRING=C:/Users/ethan/AppData/Local/Programs/CLion/bin/mingw/bin/gcc.exe
+CMAKE_C_COMPILER:FILEPATH=C:/Users/ethan/AppData/Local/Programs/CLion/bin/mingw/bin/gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -156,7 +156,7 @@ CMAKE_INSTALL_MANDIR:PATH=
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ML_From_Scratch
+CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/ML-From-Scratch
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -268,23 +268,23 @@ CMAKE_SKIP_INSTALL_RPATH:BOOL=NO
 //If set, runtime paths are not added when using shared libraries.
 CMAKE_SKIP_RPATH:BOOL=NO
 
-//Flags used by the linker during the creation of static libraries
+//Flags used by the archiver during the creation of static libraries
 // during all build types.
 CMAKE_STATIC_LINKER_FLAGS:STRING=
 
-//Flags used by the linker during the creation of static libraries
+//Flags used by the archiver during the creation of static libraries
 // during DEBUG builds.
 CMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=
 
-//Flags used by the linker during the creation of static libraries
+//Flags used by the archiver during the creation of static libraries
 // during MINSIZEREL builds.
 CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=
 
-//Flags used by the linker during the creation of static libraries
+//Flags used by the archiver during the creation of static libraries
 // during RELEASE builds.
 CMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=
 
-//Flags used by the linker during the creation of static libraries
+//Flags used by the archiver during the creation of static libraries
 // during RELWITHDEBINFO builds.
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
@@ -337,9 +337,6 @@ Eigen3_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 Eigen3_SOURCE_DIR:STATIC=C:/Users/ethan/Projects/ML-From-Scratch/libs/eigen-5.0.0
 
-//The directory containing a CMake configuration file for Eigen.
-Eigen_DIR:PATH=Eigen_DIR-NOTFOUND
-
 //The directory relative to CMAKE_INSTALL_PREFIX where Eigen header
 // files are installed
 INCLUDE_INSTALL_DIR:PATH=include/eigen3
@@ -352,15 +349,6 @@ ML-From-Scratch_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 ML-From-Scratch_SOURCE_DIR:STATIC=C:/Users/ethan/Projects/ML-From-Scratch
-
-//Value Computed by CMake
-ML_From_Scratch_BINARY_DIR:STATIC=C:/Users/ethan/Projects/ML-From-Scratch/cmake-build-debug
-
-//Value Computed by CMake
-ML_From_Scratch_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-ML_From_Scratch_SOURCE_DIR:STATIC=C:/Users/ethan/Projects/ML-From-Scratch
 
 //The directory relative to CMAKE_INSTALL_PREFIX where eigen3.pc
 // is installed
@@ -561,12 +549,6 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_TAPI-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//linker supports push/pop state
-_CMAKE_CXX_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
-//linker supports push/pop state
-_CMAKE_C_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
-//linker supports push/pop state
-_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED:INTERNAL=TRUE
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/ML_From_Scratch
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/ML-From-Scratch
 
